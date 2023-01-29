@@ -11,10 +11,10 @@ public class Worker extends Thread {
 	public void run() {
 		while (!quittingTime) {
 			working() ;
-			System.out.println("Still working...") ;
+			System.out.println(Thread.currentThread().getName() + ": Still working...") ;
 		}
 		
-		System.out.println("Coffee is good !") ;
+		System.out.println(Thread.currentThread().getName() + ": Coffee is good !") ;
 	}
 	
 	private void working() {
@@ -26,16 +26,16 @@ public class Worker extends Thread {
 	synchronized void quit() throws InterruptedException {
 		synchronized (lock) {
 			quittingTime = true ;
-			System.out.println("Calling join");
+			System.out.println(Thread.currentThread().getName() + ": Calling join");
 			join() ;
-			System.out.println("Back from join");
+			System.out.println(Thread.currentThread().getName() + ": Back from join");
 		}
 	}
 	
 	synchronized void keepWorking() {
 		synchronized (lock) {
 			quittingTime = false ;
-			System.out.println("Keep working");
+			System.out.println(Thread.currentThread().getName() + ": Keep working");
 		}
 	}
 	
@@ -55,6 +55,7 @@ public class Worker extends Thread {
 		}, 500) ;
 		
 		Thread.sleep(400) ;
+        System.out.println("Calling quit ...");
 		worker.quit() ;
 	}
 }
