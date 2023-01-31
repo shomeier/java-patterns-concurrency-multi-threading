@@ -14,6 +14,8 @@ public class Worker extends Thread {
 			System.out.println(Thread.currentThread().getName() + ": Still working...") ;
 		}
 		
+        System.out.println(Thread.currentThread().getName() + ": State: " + this.getState());
+		System.out.println(Thread.currentThread().getName() + ": ID: " + this.getId());
 		System.out.println(Thread.currentThread().getName() + ": Coffee is good !") ;
 	}
 	
@@ -27,12 +29,16 @@ public class Worker extends Thread {
 		synchronized (lock) {
 			quittingTime = true ;
 			System.out.println(Thread.currentThread().getName() + ": Calling join");
+			System.out.println(Thread.currentThread().getName() + ": State: " + this.getState());
+			System.out.println(Thread.currentThread().getName() + ": ID: " + this.getId());
+			System.out.println(Thread.currentThread().getName() + ": Current Thread ID: " + Thread.currentThread().getId());
 			join() ;
 			System.out.println(Thread.currentThread().getName() + ": Back from join");
 		}
 	}
 	
 	synchronized void keepWorking() {
+        System.out.println(Thread.currentThread().getName() + ": Keep working (outside synchronization block on own lock object)");
 		synchronized (lock) {
 			quittingTime = false ;
 			System.out.println(Thread.currentThread().getName() + ": Keep working");
